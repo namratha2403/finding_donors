@@ -125,7 +125,7 @@ def feature_plot(importances, X_train, y_train):
     indices = np.argsort(importances)[::-1]
     columns = X_train.columns.values[indices[:5]]
     values = importances[indices][:5]
-
+    
     # Creat the plot
     fig = pl.figure(figsize = (9,5))
     pl.title("Normalized Weights for First Five Most Predictive Features", fontsize = 16)
