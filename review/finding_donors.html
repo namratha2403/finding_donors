@@ -20942,8 +20942,9 @@ Look at the graph at the bottom left from the cell above(the visualization creat
 <p>1) The F-score when 100% of the data is used is the greatest for GradientBoostingClassifier. So this is best model to be chosen</p>
 <p>2) The GradientBoosting takes a little more training time than AdaBoost,but the prediction time is very less.</p>
 <p>3) This algorithm is best suited for Classification problems which have a high correlation between the features. The weak learner being decision tree helps us achieve the best result for these kinds of problems.Comparing all the three algorithms,GradientBoosting is the best.</p>
-<p>4) The boosting algorithms always have a high bias and low variance</p>
+<p>4) The boosting algorithms always have a and low bias low variance.</p>
 <p>5) In case of bais-variance tradeoff in SVM, it depends on the C value. Fore high C value, its high bias and less variance. It the reverse in case of small C.</p>
+<p>6) The Training time and predicting time for SVM is the highest, way more than ada and gradientboost.</p>
 
 </div>
 </div>
@@ -20968,37 +20969,31 @@ Look at the graph at the bottom left from the cell above(the visualization creat
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>This model is chosen because is performs better than Adaboost ,Random Forests,decision trees. Its best combination is with decision trees as it does not require much parameter tuning. This algorithm trains on different subsamples of the data , Computes the loss incurred comparing the predicted with true value. The negative gradient descent of the loss function is calculated i.e at what rate,direction,value should the error reduce in order to make the predict value almost closer to the actual value. The loss function is called the residual. It is different for different kinds(Classification and regression). Methods like sum of squared erroer , absolute mean error etc for Regression. Binomial deviance,exponential loss(leads to Adaboost) functions for classification. the step function is calculated using line search methods(eg : golden ratio).</p>
-<p>The rediduals are calculated for each each example in the distribuation. They are then passed on to the Descision tree. By using the residuals, the decision tree computes the best splits by taking gini or entropy. It dividies these residuals into various sections. After the max depth of tree is reached, average of all the residuals belonging to the same class is taken , multiplied with step,learning rate,direction and multiplied with current prediction to compute the next prediction.This is an additive model and follows forward stagewise method.Decision trees have a number of abilities that make them valuable for Gradient boosting, namely the ability to handle data of mixed type and the ability to model complex functions.</p>
-<p>The step function in case of SSE is calculated using mean of the residuals of the same class</p>
-<p>Ref:<a href="http://scikit-learn.org/stable/modules/ensemble.html#gradient-boosting">http://scikit-learn.org/stable/modules/ensemble.html#gradient-boosting</a></p>
-<p><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/">http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/</a></p>
+<p>GradientBoosting is method which boosts the performance of an already existing predictive method. It takes a method , sees its flaws and performs the same method again by making sure the same flaws wont be repeated.Its doing an addition of the all flaws of each time a method is executed and make the method more strong and robust. Kind of like how people in the early age would drink poison everyday to strengthen their immune system so that one fine day even if they fed the real poison, they wont actually be affected at all.</p>
+<p>Its takes care that best result obtained by a method is not surpassed and leading to worse results. The flaw is taken in small quantities and the method is made more strong without making the method loose its actual property. Like how if a kid is being scolded very badly, tend me make the same mistake again and again in order to get a rise out o you. The kids should be corrected by telling in a good way and at particular time to improve his behaviour.</p>
+<p>One simple example is shown below</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">Assume</span> <span class="n">The</span> <span class="n">GradientBoosting</span> <span class="ow">is</span> <span class="n">employing</span> <span class="n">three</span> <span class="n">ninjas</span> <span class="n">Mary</span><span class="p">,</span><span class="n">Jane</span> <span class="ow">and</span> <span class="n">Jack</span> <span class="n">to</span> <span class="n">find</span> <span class="n">kidnapped</span> <span class="n">panda</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">maze</span><span class="o">.</span> <span class="n">Here</span> <span class="n">are</span> <span class="n">some</span> <span class="n">rules</span>
-<span class="n">of</span> <span class="n">the</span> <span class="n">maze</span><span class="o">.</span> 
-<span class="mi">1</span><span class="p">)</span><span class="n">Only</span> <span class="n">one</span> <span class="n">ninja</span> <span class="n">can</span> <span class="n">enter</span> <span class="n">the</span> <span class="n">maze</span> <span class="n">at</span> <span class="n">a</span> <span class="n">time</span> <span class="ow">and</span>
-<span class="mi">2</span><span class="p">)</span><span class="n">Each</span> <span class="n">ninja</span> <span class="n">has</span> <span class="n">the</span> <span class="n">strength</span> <span class="n">to</span> <span class="n">cover</span> <span class="n">only</span> <span class="n">one</span> <span class="n">path</span> 
-<span class="mi">3</span><span class="p">)</span><span class="n">ninjas</span> <span class="n">should</span> <span class="n">never</span> <span class="n">talk</span> <span class="n">to</span> <span class="n">one</span> <span class="n">another</span> <span class="ow">in</span> <span class="n">fear</span> <span class="n">that</span> <span class="n">panda</span> <span class="n">will</span> <span class="n">be</span> <span class="n">taken</span> <span class="n">away</span> <span class="n">again</span><span class="o">.</span>
-<span class="mi">4</span><span class="p">)</span><span class="n">Each</span> <span class="n">ninja</span> <span class="n">can</span> <span class="n">go</span> <span class="n">into</span> <span class="n">the</span> <span class="n">maze</span> <span class="n">only</span> <span class="n">after</span> <span class="n">the</span> <span class="n">other</span> <span class="n">comes</span> <span class="n">out</span><span class="err">!</span>
-<span class="mi">4</span><span class="p">)</span><span class="n">Each</span> <span class="n">ninja</span> <span class="n">after</span> <span class="n">covering</span> <span class="n">a</span> <span class="n">path</span> <span class="n">must</span> <span class="n">paint</span> <span class="n">the</span> <span class="n">path</span> <span class="n">red</span> <span class="k">if</span> <span class="n">he</span> <span class="n">did</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">the</span> <span class="n">panda</span> <span class="ow">in</span> <span class="n">that</span> <span class="n">path</span> <span class="n">so</span> <span class="n">that</span> <span class="n">the</span> <span class="n">other</span> <span class="n">ninja</span> 
-<span class="n">does</span> <span class="ow">not</span> <span class="n">follow</span> <span class="n">the</span> <span class="n">same</span> <span class="n">path</span> <span class="n">again</span>
-
-<span class="n">First</span> <span class="n">jack</span> <span class="n">enters</span> <span class="n">the</span> <span class="n">maze</span><span class="o">.</span><span class="n">He</span> <span class="n">follows</span> <span class="n">a</span> <span class="n">path</span> <span class="ow">and</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">the</span> <span class="n">panda</span><span class="o">.</span> <span class="n">he</span> <span class="n">paints</span> <span class="n">it</span> <span class="n">red</span> <span class="ow">and</span> <span class="n">comes</span> <span class="n">back</span><span class="o">.</span>
-<span class="n">Dejected</span> <span class="n">that</span> <span class="n">jack</span> <span class="n">did</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">the</span> <span class="n">panda</span><span class="p">,</span><span class="n">mary</span> <span class="n">enters</span> <span class="n">the</span> <span class="n">maze</span> <span class="nb">next</span><span class="o">.</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Assume The GradientBoosting is employing three ninjas Mary,Jane and Jack to find kidnapped panda in a maze. Here are some rules
+of the maze. 
+1)Only one ninja can enter the maze at a time and
+2)Each ninja has the strength to cover only one path 
+3)ninjas should never talk to one another in fear that panda will be taken away again.
+4)Each ninja can go into the maze only after the other comes out!
+4)Each ninja after covering a path must paint the path red if he did not find the panda in that path so that the other ninja 
+does not follow the same path again</p>
+<p>First jack enters the maze.He follows a path and does not find the panda. he paints it red and comes back.
+Dejected that jack did not find the panda,mary enters the maze next.</p>
 
 </div>
 </div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
